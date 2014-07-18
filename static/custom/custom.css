@@ -1,0 +1,66 @@
+h1 {
+    text-align:center;
+}
+
+.text_cell_render img{
+    max-width:900px;
+}
+
+.output img{
+    max-width:900px;
+}
+
+.output svg{
+    max-width:900px;
+}
+
+div.cell{
+    width:950px;
+    margin-left:5% !important;
+    margin-right:auto;
+}
+
+div.text_cell_render{
+    line-height: 145%;
+    font-size: 120%;
+}
+
+.CodeMirror{
+    font-size:110%;
+}
+
+p{
+    margin-bottom:10px;
+}
+
+div.cell.selected{
+    border: 1px solid #ABABAB;
+}
+
+div.cell.edit_mode {
+    border: 1px solid #008000;
+}
+
+div.input_prompt {
+    display: None;
+}
+
+div.output_prompt {
+    display: None;
+}
+
+div.out_prompt_overlay{
+    display: None !important;
+}
+
+div.output_area div.prompt{
+    display: None;
+}
+
+.cm-s-ipython{
+    background-color:#ddffdd;
+}
+
+div.cell{
+    padding:5px;
+}

@@ -1,0 +1,7 @@
+security
+db
+pid
+log
+history.sqlite
+ipython_*.py
+*.pyc
