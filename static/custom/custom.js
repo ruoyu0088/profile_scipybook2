@@ -100,6 +100,21 @@ $([IPython.events]).on('app_initialized.NotebookApp', function(){
     };
     IPython.keyboard_manager.edit_shortcuts.add_shortcut("space", data, true);
     
+    var pep8_data = {
+        handler : function(event){
+            var kernel = IPython.notebook.kernel;
+            var cell = IPython.notebook.get_selected_cell();
+            var code = "%%pep8" + "\n" + cell.get_text();
+            function callback(data){
+                var result = data.content.data["text/plain"];
+                cell.set_text(result);
+            }
+            kernel.execute(code, {iopub:{output: callback}}, {silent:false});          
+        }
+    };
+
+    IPython.keyboard_manager.edit_shortcuts.add_shortcut("ctrl-alt-8", pep8_data, true);    
+    
      require(["nbextensions/toc"], function (toc) {
         console.log('Table of Contents extension loaded');
         toc.load_extension();

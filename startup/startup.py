@@ -371,6 +371,31 @@ class CythonPartsMagic(Magics):
         cell = "\n".join(cells)
         cython = self.shell.find_cell_magic("cython")
         cython("", cell)
+        
+@register_cell_magic
+def pep8(line, cell):
+    import autopep8
+
+    class fix_repr(object):
+
+        def __init__(self, obj):
+            self.obj = obj
+
+        def __repr__(self):
+            return self.obj.encode("utf8")
+
+    if cell.startswith("%%"):
+        lines = cell.split("\n")
+        first_line = lines[0]
+        cell = "\n".join(lines[1:])
+    else:
+        first_line = ""
+
+    cell = autopep8.fix_code(cell)
+    if first_line:
+        cell = first_line + "\n" + cell
+    cell = cell.replace("\n\n", "\n")
+    return fix_repr(cell)
     
 ip = get_ipython()
 ip.register_magics(CythonPartsMagic)
