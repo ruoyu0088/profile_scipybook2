@@ -394,7 +394,7 @@ def pep8(line, cell):
     cell = autopep8.fix_code(cell)
     if first_line:
         cell = first_line + "\n" + cell
-    cell = cell.replace("\n\n", "\n")
+    cell = cell.replace("\n\n\n", "\n\n")
     return fix_repr(cell)
     
 ip = get_ipython()
