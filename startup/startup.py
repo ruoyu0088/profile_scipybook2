@@ -163,18 +163,18 @@ def run_me():
     def matplotlib_svg(line):
         ip = get_ipython()
         ip.run_cell("""
-    %config InlineBackend.figure_format = 'svg'
-    %config InlineBackend.rc = {'figure.figsize': (6.0, 3.0), 'figure.facecolor':(1.0, 1.0, 1.0)}
-    %matplotlib inline
+%config InlineBackend.figure_format = 'svg'
+%config InlineBackend.rc = {'figure.figsize': (6.0, 3.0), 'figure.facecolor':(1.0, 1.0, 1.0)}
+%matplotlib inline
         """)
         
     @register_line_magic
     def matplotlib_png(line):
         ip = get_ipython()
         ip.run_cell("""
-    %config InlineBackend.figure_format = 'png'
-    %config InlineBackend.rc = {'figure.figsize': (12.0, 6.0), 'figure.facecolor':(1.0, 1.0, 1.0)}
-    %matplotlib inline
+%config InlineBackend.figure_format = 'png'
+%config InlineBackend.rc = {'figure.figsize': (12.0, 6.0), 'figure.facecolor':(1.0, 1.0, 1.0)}
+%matplotlib inline
         """)
 
         
