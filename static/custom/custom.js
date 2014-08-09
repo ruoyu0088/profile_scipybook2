@@ -122,10 +122,21 @@ $([IPython.events]).on('app_initialized.NotebookApp', function(){
         $("#menus").append($("#move_up_b"));
         $("#menus").append($("#move_down_b"));
         $("#menus").append($("#toc_button"));
-        $("#menus").append($("#notebook_name"));
+        $("#menus").append($("#save_widget"));
+        $("#checkpoint_status").hide();
+        $("#autosave_status").hide();
         $("#notebook_name").text($("body").attr("data-notebook-name").replace(".ipynb", ""));
         $('div#maintoolbar').toggle();
         $('div#header').toggle();
         IPython.layout_manager.do_resize();            
     }); 
+    
+    require(['nbextensions/livereveal/main'],function(livereveal){
+        // livereveal.parameters('theme', 'transition', 'fontsize', static_prefix);
+        //   * theme can be: simple, sky, beige, serif, solarized
+        //   (you will need aditional css for default, night, moon themes).
+        //   * transition can be: linear, zoom, fade, none
+        livereveal.parameters('sky', 'zoom');
+    });    
+    
 });
