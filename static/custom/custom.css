@@ -64,3 +64,35 @@ div.output_area div.prompt{
 div.cell{
     padding:5px;
 }
+
+.navbar select, .navbar label {
+    width: auto;
+    height: 26px;
+    vertical-align: middle;
+    margin-bottom: 0px;
+    display: inline;
+    font-size: 92%;
+    margin-left: 0.3em;
+    margin-right: 0.3em;
+    padding: 3px 0px 0px;
+}
+
+.toggle_arrow_down:before{
+font-family:FontAwesome;
+font-weight:normal;
+font-style:normal;
+text-decoration:inherit;
+-webkit-font-smoothing:antialiased;
+*margin-right:.3em;
+content:"\f07d";
+}
+
+#ui_toggle {
+
+}
+/*
+.navbar .nav > li > a {
+padding-left:10px;
+padding-right:10px;
+}
+*/

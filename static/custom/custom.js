@@ -61,7 +61,36 @@ var macros = {
     "fig":'![](/files/images/.png "")',
     "next":'`ref:fig-next`',
     "prev":'`ref:fig-prev`'
- }
+ };
+ 
+function compact_ui(){
+    $("#menus").append($("#move_up_down"));
+    $("#menus").append($("#toc_button"));
+    $("#menus").append($("#save_widget"));
+    //$("#menus").append($("#theme_select"));
+    $("#checkpoint_status").hide();
+    $("#autosave_status").hide();
+    //$("#notebook_name").text($("body").attr("data-notebook-name").replace(".ipynb", ""));
+    $('div#maintoolbar').toggle();
+    $('div#header').toggle();
+    $("#save_widget").css("margin-top", "5px");
+    IPython.layout_manager.do_resize(); 
+    $("#header").attr("ui_style", "compact");
+}
+
+function expand_ui(){
+    $("#move_up_down").insertBefore($("#run_int"));
+    $("#toc_button").insertBefore($("#cell_type"));
+    $('div#maintoolbar').toggle();
+    $('div#header').toggle();
+    $("div#header div.container").append($("#save_widget"));
+    $("#checkpoint_status").show();
+    $("#autosave_status").show();
+    $("#save_widget").css("margin-top", "");
+    //$("#maintoolbar-container").append($("#theme_select")); 
+    IPython.layout_manager.do_resize(); 
+    $("#header").attr("ui_style", "expand");
+}
  
 $([IPython.events]).on('app_initialized.NotebookApp', function(){
     var data = {
@@ -115,28 +144,33 @@ $([IPython.events]).on('app_initialized.NotebookApp', function(){
 
     IPython.keyboard_manager.edit_shortcuts.add_shortcut("ctrl-alt-8", pep8_data, true);    
     
-     require(["nbextensions/toc"], function (toc) {
-        console.log('Table of Contents extension loaded');
-        toc.load_extension();
-        
-        $("#menus").append($("#move_up_b"));
-        $("#menus").append($("#move_down_b"));
-        $("#menus").append($("#toc_button"));
-        $("#menus").append($("#save_widget"));
-        $("#checkpoint_status").hide();
-        $("#autosave_status").hide();
-        $("#notebook_name").text($("body").attr("data-notebook-name").replace(".ipynb", ""));
-        $('div#maintoolbar').toggle();
-        $('div#header').toggle();
-        IPython.layout_manager.do_resize();            
-    }); 
+
+    // livereveal.parameters('theme', 'transition', 'fontsize', static_prefix);
+    //   * theme can be: simple, sky, beige, serif, solarized
+    //   (you will need aditional css for default, night, moon themes).
+    //   * transition can be: linear, zoom, fade, none
     
-    require(['nbextensions/livereveal/main'],function(livereveal){
-        // livereveal.parameters('theme', 'transition', 'fontsize', static_prefix);
-        //   * theme can be: simple, sky, beige, serif, solarized
-        //   (you will need aditional css for default, night, moon themes).
-        //   * transition can be: linear, zoom, fade, none
+    require(["nbextensions/livereveal/main", 
+             "nbextensions/toc", 
+             "nbextensions/code_theme_selector"], function (livereveal, toc, theme) {
         livereveal.parameters('sky', 'zoom');
-    });    
-    
+        toc.load_extension();
+        theme.add_selection();
+        
+        $("#start_livereveal").parent().insertBefore("#cell_type");
+        $("#toc_button").parent().insertBefore("#cell_type");
+        
+        compact_ui();
+
+        $('<div id="ui_toggle" class="indicator_area pull-right">\
+         <i title="Switch between compact and expanded UI" \
+         class="toggle_arrow_down" id="ui_toggle_icon"></i></div>').insertAfter($("#modal_indicator"));
+        
+        $("#ui_toggle").click(function(){
+            if($("#header").attr("ui_style") == "compact")
+                expand_ui();
+            else
+                compact_ui();
+        }).css("cursor", "pointer");
+    }); 
 });
