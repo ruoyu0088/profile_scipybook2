@@ -63,6 +63,19 @@ var macros = {
     "prev":'`ref:fig-prev`'
  };
  
+IPython.Notebook.prototype.search_cell = function(pattern){
+    var cells = IPython.notebook.get_cells();
+    for (var i = 0; i < cells.length; i++) {
+        var cell = cells[i];
+        if (cell.get_text().indexOf(pattern) == 0) return cell;
+    }
+};
+
+function replace_cell(pattern, text){
+    var cell = IPython.notebook.search_cell(pattern);
+    cell.set_text(text);
+}
+ 
 function compact_ui(){
     $("#menus").append($("#move_up_down"));
     $("#menus").append($("#toc_button"));
@@ -174,3 +187,7 @@ $([IPython.events]).on('app_initialized.NotebookApp', function(){
         }).css("cursor", "pointer");
     }); 
 });
+
+$("head").append('<script src="/static/components/codemirror/mode/clike/clike.js" charset="utf-8"></script>');
+IPython.config.cell_magic_highlight['magic_text/x-csrc'] = {'reg':[/^%%language c/]};
+IPython.config.cell_magic_highlight['magic_text/x-cython'].reg.push(/^%%include cython/);
