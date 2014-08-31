@@ -135,6 +135,10 @@ def run_me():
         pass
         
     @register_cell_magic
+    def language(line, cell):
+        pass
+        
+    @register_cell_magic
     def cython_part(line, cell):
         parts[line] = cell
         
@@ -445,6 +449,45 @@ def run_me():
         build_options = config["build"]
         build_options["compiler"] = compiler
         write_config(sys_file, config)
+        
+    def get_section(filepath, section):
+        from os import path
+        import scpy2
+        section = "###{}###".format(section)
+        lines = []
+        flag = False
+        for line in file(path.join(path.dirname(scpy2.__file__), filepath)):
+            if not flag and line.startswith(section):
+                flag = True
+                continue
+            if flag:
+                if line.startswith(section):
+                    break
+                lines.append(line)   
+        return "".join(lines).rstrip()
+        
+    @register_cell_magic
+    def include(line, cell):
+        import json
+        language, filepath, section = line.split()
+        section = int(section)
+        first_line = "%%include " + line
+        section_text = get_section(filepath, section)
+        text = json.dumps(unicode(first_line) + u"\n" + section_text.decode("utf8"))
+        code = """%%javascript
+        replace_cell({0}, {1});
+""".format(json.dumps(first_line), text)
+        ip.run_cell(code)
+        
+    @register_cell_magic
+    def func_debug(line, cell):
+        import inspect
+        ip = get_ipython()
+        func = ip.ev(line)
+        filename = inspect.getabsfile(func)
+        bp_line = inspect.getsourcelines(func)[1]
+        instance = ip.magics_manager.registry["ExecutionMagics"]
+        instance._run_with_debugger(cell, instance.shell.user_ns, filename, bp_line)        
         
     ip = get_ipython()
     ip.register_magics(CythonPartsMagic)
