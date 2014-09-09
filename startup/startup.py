@@ -13,6 +13,31 @@ def run_me():
     from collections import OrderedDict
 
     sh = InteractiveShell.instance()
+    
+    def show_arrays(arrays):
+        import io
+        from matplotlib.image import imsave
+        from IPython import display 
+        margin = 10
+        width = sum(arr.shape[1] for arr in arrays) + (len(arrays)-1)*margin
+        height = max(arr.shape[0] for arr in arrays)
+        img = np.empty((height, width, 3), dtype=np.uint8)
+        img.fill(255)
+        x = 0
+        for arr in arrays:
+            if arr.dtype in (np.float32, np.float64):
+                arr = (np.clip(arr, 0, 1) * 255).astype(np.uint8)
+            h, w = arr.shape[:2]
+            if arr.ndim == 2:
+                arr = arr[:, :, None]
+            elif arr.ndim == 3:
+                arr = arr[:, :, :3]
+            img[:h, x:x+w, :] = arr[:, :, :]
+            x += w + margin
+
+        buf = io.BytesIO()
+        imsave(buf, img)
+        return display.Image(buf.getvalue())
 
     @register_line_magic
     def exec_python(line):
@@ -257,26 +282,7 @@ def run_me():
             else:
                 arrays.extend(item)
                 
-        margin = 10
-        width = sum(arr.shape[1] for arr in arrays) + (len(arrays)-1)*margin
-        height = max(arr.shape[0] for arr in arrays)
-        img = np.empty((height, width, 3), dtype=np.uint8)
-        img.fill(255)
-        x = 0
-        for arr in arrays:
-            if arr.dtype in (np.float32, np.float64):
-                arr = (np.clip(arr, 0, 1) * 255).astype(np.uint8)
-            h, w = arr.shape[:2]
-            if arr.ndim == 2:
-                arr = arr[:, :, None]
-            elif arr.ndim == 3:
-                arr = arr[:, :, :3]
-            img[:h, x:x+w, :] = arr[:, :, :]
-            x += w + margin
-
-        buf = io.BytesIO()
-        imsave(buf, img)
-        return display.Image(buf.getvalue())
+        return show_arrays(arrays)
         
     def setup_digital_axes(fig):
         fig.subplots_adjust(hspace=0)
@@ -487,7 +493,37 @@ def run_me():
         filename = inspect.getabsfile(func)
         bp_line = inspect.getsourcelines(func)[1]
         instance = ip.magics_manager.registry["ExecutionMagics"]
-        instance._run_with_debugger(cell, instance.shell.user_ns, filename, bp_line)        
+        instance._run_with_debugger(cell, instance.shell.user_ns, filename, bp_line)  
+
+    @register_line_magic
+    def init_sympy_printing(line):
+        from sympy import init_printing
+        init_printing()
+        ip = get_ipython()
+        latex = ip.display_formatter.formatters["text/latex"]
+        for key in latex.type_printers.keys():
+            if key.__module__ == "__builtin__":
+                del latex.type_printers[key]
+        png = ip.display_formatter.formatters["image/png"]
+        for key in png.type_printers.keys():
+            if key.__module__ == "__builtin__":
+                del png.type_printers[key]     
+               
+    @register_cell_magic
+    def mlab_plot(line, cell):
+        from mayavi import mlab
+        ip = get_ipython()
+        mlab.options.offscreen = True
+        if line:
+            width, height = [int(x) for x in line.split()]
+        else:
+            width, height = 800, 600
+        scene = mlab.figure(size=(width, height))
+        scene.scene.background = 1, 1, 1
+        ip.run_cell(cell)
+        from scpy2 import vtk_scene_to_array
+        img = vtk_scene_to_array(scene.scene)
+        return show_arrays([img])
         
     ip = get_ipython()
     ip.register_magics(CythonPartsMagic)
