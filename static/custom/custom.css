@@ -1,98 +1,75 @@
-h1 {
-    text-align:center;
-}
-
-.text_cell_render img{
-    max-width:900px;
-}
-
-.output img{
-    max-width:900px;
-}
-
-.output svg{
-    max-width:900px;
-}
-
-div.cell{
-    width:950px;
-    margin-left:5% !important;
-    margin-right:auto;
-}
-
-div.text_cell_render{
-    line-height: 145%;
-    font-size: 120%;
-}
-
-.CodeMirror{
-    font-size:110%;
-}
-
-p{
-    margin-bottom:10px;
-}
-
-div.cell.selected{
-    border: 1px solid #ABABAB;
-}
-
-div.cell.edit_mode {
-    border: 1px solid #008000;
-}
-
-div.input_prompt {
-    display: None;
-}
-
-div.output_prompt {
-    display: None;
-}
-
-div.out_prompt_overlay{
-    display: None !important;
-}
-
-div.output_area div.prompt{
-    display: None;
-}
-
-.cm-s-ipython{
-    background-color:#ddffdd;
-}
-
-div.cell{
-    padding:5px;
-}
-
-.navbar select, .navbar label {
-    width: auto;
-    height: 26px;
-    vertical-align: middle;
-    margin-bottom: 0px;
-    display: inline;
-    font-size: 92%;
-    margin-left: 0.3em;
-    margin-right: 0.3em;
-    padding: 3px 0px 0px;
-}
-
-.toggle_arrow_down:before{
-font-family:FontAwesome;
-font-weight:normal;
-font-style:normal;
-text-decoration:inherit;
--webkit-font-smoothing:antialiased;
-*margin-right:.3em;
-content:"\f07d";
-}
-
-#ui_toggle {
-
-}
 /*
-.navbar .nav > li > a {
-padding-left:10px;
-padding-right:10px;
+Placeholder for custom user CSS
+
+mainly to be overridden in profile/static/custom/custom.css
+
+This will always be an empty file in IPython
+*/
+/*
+.kernel_idle_icon:before {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transform: translate(0, 0);
+  content: "\f10c";
+}
+.kernel_idle_icon:before.pull-left {
+  margin-right: .3em;
+}
+.kernel_idle_icon:before.pull-right {
+  margin-left: .3em;
 }
 */
+
+.toggle_arrow_down:before{
+    font-family:FontAwesome;
+    font-weight:normal;
+    font-style:normal;
+    text-decoration:inherit;
+    cursor:pointer;
+    -webkit-font-smoothing:antialiased;
+    *margin-right:.3em;
+    content:"\f07d";
+}
+
+
+blockquote.info_block{
+    border-width:1px;
+    border-color:#cccccc;
+    border-style: solid;
+    padding:5px;
+    min-height: 70px;
+}
+
+blockquote.info_block .large_font{
+    font-size:60px;
+    color:#FF8C00;
+    float:left;
+    width:60px;
+    height:60px;
+}
+
+blockquote.info_block td{
+    border-style:none;
+}
+
+blockquote.info_block td.first-column{
+    width:70px;
+}
+
+blockquote.info_block tr{
+    border-style:none;
+}
+
+blockquote.info_block table{
+    border-style:none;
+    width: 100%;
+}
+
+    
+blockquote.info_block p{
+    font-size:120%;
+}
