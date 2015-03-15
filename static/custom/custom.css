@@ -24,6 +24,55 @@ This will always be an empty file in IPython
 }
 */
 
+h1 {
+    text-align:center;
+}
+
+img{
+    max-width:100%;
+}
+
+div.output_svg > div{
+    max-width: 100% !important;
+    width: auto !important;
+    height: auto !important;
+}
+
+.output svg{
+    width: auto !important;
+    height: auto !important;
+    max-width: 100% !important;
+}
+
+div.input_prompt {
+    display: None;
+}
+
+div.output_prompt {
+    display: None;
+}
+
+div.out_prompt_overlay{
+    display: None !important;
+}
+
+div.output_area div.prompt{
+    display: None;
+}
+
+div.text_cell_render{
+    line-height: 145%;
+    font-size: 120%;
+}
+
+.CodeMirror{
+    font-size:110%;
+}
+
+.cm-s-ipython{
+    background-color:#ddffdd;
+}
+
 .toggle_arrow_down:before{
     font-family:FontAwesome;
     font-weight:normal;
