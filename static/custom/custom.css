@@ -29,7 +29,7 @@ h1 {
 }
 
 img{
-    max-width:100%;
+    max-width:1000px !important;
 }
 
 div.output_svg > div{
@@ -42,6 +42,11 @@ div.output_svg > div{
     width: auto !important;
     height: auto !important;
     max-width: 100% !important;
+}
+
+div.output_png > img{
+    width: auto !important;
+    height: auto !important;    
 }
 
 div.input_prompt {
@@ -121,4 +126,27 @@ blockquote.info_block table{
     
 blockquote.info_block p{
     font-size:120%;
+}
+
+.output_area table {
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+.output_area tr,
+.output_area th,
+.output_area td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  margin: 1em 2em;
+}
+.output_area td,
+.output_area th {
+  text-align: left;
+  vertical-align: middle;
+  padding: 4px;
+}
+.output_area th {
+  font-weight: bold;
 }
