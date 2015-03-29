@@ -24,6 +24,10 @@ This will always be an empty file in IPython
 }
 */
 
+code {
+    color:#00578F !important;
+}
+
 h1 {
     text-align:center;
 }
