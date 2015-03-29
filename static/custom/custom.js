@@ -1,5 +1,14 @@
 // activate extensions only after Notebook is initialized
 
+function replace_cell(pattern, text){
+    var cells = IPython.notebook.get_cells();
+    for (var i = 0; i < cells.length; i++) {
+        var cell = cells[i];
+        if (cell.get_text().indexOf(pattern) == 0){
+            cell.set_text(text);
+        }
+    }
+}
 
 require(["nbextensions/toc"], function (toc) {
     console.log('Table of Contents extension loaded');
